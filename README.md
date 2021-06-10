@@ -1,5 +1,6 @@
 ## 기억보다는 기록을
-### [바로가기](http://kingstar.shop/)
+### [사이트 바로가기](http://kingstar.shop/)
+### [시션영상 링크](https://www.youtube.com/watch?v=dkZAG0hw6VU)
 어제 보다 나은 개발자가 되기 위해 오늘 공부한 것을 기록하고,  함께 공유하며, 기록한 내용을 리뷰할 수 있는 사이트입니다.
 
 
