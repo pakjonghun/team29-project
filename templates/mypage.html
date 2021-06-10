@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8"/>
+    <meta property="og:title" content="기억보다는 기록을" />
+    <meta property="og:description" content="어제 보다 나은 개발자가 되기 위해 오늘 공부한 것을 기록하고,  함께 공유하며, 기록한 내용을 리뷰할 수 있는 사이트." />
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title> 기억보단 기록을 | 좋아요 </title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="styㅋㅌlesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 7rem 5rem;
+        }
+
+        .main {
+            padding: 1.2rem;
+            width: 100%;
+            background-color: #f1f2f6;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(5em, 1fr));
+            grid-auto-rows: max-content;
+            gap: .4rem;
+            border: #dfe4ea 1px solid;
+            border-radius: 1em;
+        }
+
+        article {
+            font-weight: 600;
+            color: gray;
+            cursor: pointer;
+            border: 1px solid #CDD4D9;
+            background-color: #ffffff;
+            overflow: hidden;
+            border-radius: .3rem;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: .5em;
+        }
+
+        article:hover {
+            color: black;
+            background-color: #dcdde1;
+        }
+
+        article:active {
+            opacity: .7;
+        }
+
+        p {
+            padding: .3em;
+            min-height: 3em;
+            display: block;
+            width: 100%;
+            border-top: 1px solid #f1f2f6;
+
+            display: flex;
+            justify-content: flex-start;
+            align-content: center;
+
+        }
+
+        p:nth-child(2) {
+            min-height: 4em;
+        }
+
+        p:last-child {
+            border-bottom: 1px solid #CDD4D9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+    <script>
+
+        function goMain() {
+            window.location.href = "/main"
+        }
+
+        //유저 정보 받기
+
+        function logout() {
+            document.cookie = 'token' + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+            window.location.href = '/user/logout'
+        }
+
+        function goDetail(key) {
+            window.location.href=`/detail/${key}`
+        }
+
+    </script>
+</head>
+<body>
+
+
+<nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand" style="display:flex; justify-content: space-between ">
+        <a class="navbar-item" href="/">
+            <img style="width: 50px; height: 40px;" src="{{ url_for('static', filename='logo_book.png') }}">
+            <strong class="is-sparta"
+                    style="font-family: 'Do Hyeon', sans-serif; font-size: larger; margin: 0;"> 마이페이지</strong>
+        </a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropDown" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"
+               style="font-family: 'Do Hyeon', sans-serif; color: black; ">{{data['nickName']}}</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item"
+                       style="font-family: 'Do Hyeon', sans-serif; margin-left: 2px;"
+                       onclick="logout()" id="logout">logout
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       style="font-family: 'Do Hyeon', sans-serif; margin-left: 2px;"
+                       onclick="goMain()">메인페이지로
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </div>
+</nav>
+
+<main class="main" id="main">
+    {% for board in boards %}
+    <article class="main__card" onclick="goDetail({{board.key}})">
+        <p>{{board['title']}}</p>
+        <p>{{board['content']}}</p>
+        <p>{{board['reference']}}</p>
+    </article>
+    {% endfor %}
+
+</main>
+</body>
+</html>

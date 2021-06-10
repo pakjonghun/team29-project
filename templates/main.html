@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta property="og:title" content="기억보다는 기록을" />
+    <meta property="og:description" content="어제 보다 나은 개발자가 되기 위해 오늘 공부한 것을 기록하고,  함께 공유하며, 기록한 내용을 리뷰할 수 있는 사이트." />
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title> 기억보단 기록을 | main</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+    <style>
+        .maintitle {
+            font-family: 'Do Hyeon', sans-serif;
+            color: green;
+            text-align: center;
+        }
+
+        .head {
+            background-image: url("data:image/png;base64,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");
+            position: relative;
+            width: 100%;
+            height: 300px;
+
+            background-size: cover;
+            background-position: center;
+            padding-top: 1%;
+        }
+
+        .nav {
+            text-align: center;
+        }
+
+        .card {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            cursor: pointer;
+            box-shadow: 5px 5px 28px 4px rgba(120,120,120,0.68), 5px 5px 28px 4px rgba(120,120,120,0.68);
+            transition: all 200ms ease-in-out;
+        }
+        .card:hover {
+             background-color: #dfdee5;
+        }
+
+        .card-columns {
+            margin-top: 50px;
+            margin-left: 120px;
+        }
+
+        .wrap {
+            width: 100%;
+        }
+
+        .image {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            color: white;
+            text-align: center;
+            background-image: url("https://www.wallpapertip.com/wmimgs/1-15895_18-night-sky-stars-desktop-wallpaper-hd.jpg");
+            background-size: cover;
+            background-position: center;
+            padding-top: 1%;
+        }
+
+        .content {
+            font-size: 100px;
+            line-height: 500px;
+        }
+
+        .row {
+            margin-top: 30px;
+            padding-right: 70px;
+            padding-left: 70px;
+        }
+
+    </style>
+
+    <script>
+        let user = {{ data|safe }};
+        console.log(user['nickName']);
+
+
+
+        function mypage(){
+            alert(`${user['nickName']}님이 '좋아요'한 페이지로 이동합니다.`)
+            window.location.href = `/like/${user['nickName']}`;
+        }
+
+
+        function logout() {
+            document.cookie = 'token' + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+            window.location.href = '/user/logout'
+        }
+
+        (async function () {
+
+            try {
+                const list = await (await fetch('/main/list',
+                    {
+                        method: 'GET',
+                    }
+                )).json();
+
+                const {result} = list
+                console.log(result);
+                let cards = document.querySelector('.row');
+                for (let value of result) {
+                    let temp_html = `<div class="col-sm-6" onclick="detail('${value.key}')">
+                                        <div class="card border-secondary mb-3">
+                                            <div class="card-header bg-transparent border-secondary" style="display: flex; justify-content: space-around">
+                                                  <div style="text-align: center; padding:0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                                    <span style="font-weight: bold">제목:</span>  ${value.title}
+                                                 </div>
+                                                  <div><span style="font-weight: bold">좋아요 :</span> ${value.like}</div>
+                                            </div>
+                                             <div class="card-body text-secondary" style="text-align: center; padding:0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                                     <span style="font-weight: bold"></span>  ${value.content}
+                                            </div>
+                                            <div class="card-footer bg-transparent border-secondary; no"><a href=${value.reference}></a></div>
+                                            <div style="display: flex; justify-content: space-around; margin-bottom: 5px;">
+                                                <div><span style="font-weight: bold">일시 :</span>
+                                                     <span class="card-text" style="font-size: 8px; text-align: center;">${value.createdAt}</span>
+                                                </div>
+                                                <div><span style="font-weight: bold">작성자 :</span> ${value.writer}</div>
+                                             </div>
+                                        </div>
+                                      </div>`
+                    cards.innerHTML += temp_html
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        })();
+
+        async function detail(id) {
+            window.location.href = `/detail/${id}`;
+        }
+
+
+        async function setContent() {
+            const formdData = new FormData();
+            const title = document.querySelector('#title').value;
+            const content = document.querySelector('#content').value;
+            const reference = document.querySelector('#reference').value;
+
+            console.log(title, content, reference);
+
+            formdData.append('title', title);
+            formdData.append('content', content);
+            formdData.append('reference', reference);
+            formdData.append('writer', user.nickName);
+            try {
+                const result = await (
+                    await fetch('/main', {
+                        method: 'POST',
+                        body: formdData,
+                    })
+                ).json();
+                if (result.message) {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+            location.reload();
+        }
+    </script>
+</head>
+
+<body>
+
+<nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand" style="display:flex; justify-content: space-between;">
+        <a class="navbar-item" href="/">
+            <img style="width: 50px; height: 40px;" src="{{ url_for('static', filename='logo_book.png') }}">
+            <strong class="is-sparta"
+                    style="font-family: 'Do Hyeon', sans-serif; font-size: larger; margin: 0;">기억보단 기록을</strong>
+        </a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropDown" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false" style="font-family: 'Do Hyeon', sans-serif; color: black; ">{{ user.nickName }}</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item"
+                       style="font-family: 'Do Hyeon', sans-serif; margin-left: 2px;"
+                       onclick="logout()" id="logout">logout
+                    </a>
+                </li>
+                <li><a class="dropdown-item" data-bs-toggle="modal"
+                       data-bs-target="#exampleModal"
+                       data-bs-whatever="@mdo"
+                       style="font-family: 'Do Hyeon', sans-serif; margin-left: 2px">글쓰기</a>
+                <li>
+                    <a class="dropdown-item"
+                       style="font-family: 'Do Hyeon', sans-serif; margin-left: 2px;"
+                       onclick="mypage()" >마이페이지
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </div>
+</nav>
+
+
+<div class="wrap">
+    <header>
+        <div class="image" style="display: flex; flex-direction: column;  justify-content: center;  align-items: center; max-width: 100em; margin:auto;">
+            <div class="content"> 기억보단 기록을</div>
+        </div>
+    </header>
+
+</div>
+
+<div class="row"></div>
+
+<!-- 모달 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">글쓰기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">제목:</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">내용:</label>
+                        <textarea class="form-control" id="content" name="content"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">참고자료:</label>
+                        <input type="text" class="form-control" id="reference" name="reference"></input>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="setContent()">글쓰기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

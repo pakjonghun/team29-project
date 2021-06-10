@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta property="og:title" content="기억보다는 기록을"/>
+    <meta property="og:description" content="어제 보다 나은 개발자가 되기 위해 오늘 공부한 것을 기록하고,  함께 공유하며, 기록한 내용을 리뷰할 수 있는 사이트."/>
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}"/>
+
+    <meta charset="UTF-8">
+    <title>기억보다는 기록을 | 로그인</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link href="{{ url_for('static', filename='./css/login.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script>
+
+
+        function login() {
+            const nickName = $('#nickName').val();
+            const password = $('#password').val();
+            $.ajax({
+                type: "post",
+                url: "/user/login",
+                data: {nickName, password},
+                success: function (response) {
+                    const {ok = null, err = null, user = null, token = null} = response;
+                    if (ok) {
+                        $.cookie('token', token, {path: '/'});
+                        alert(`${user.nickName}님 방문을 환영합니다. 로그인은 하루 동안만 유지됩니다.`);
+                        window.location.href = "/main";
+                    } else {
+                        if (err === "1") {
+                            alert("없는 닉네임 입니다.");
+                            $('#nickName').css("border", "1px solid red");
+
+                        } else if (err === "2") {
+                            const num = Number($.cookie('wrongPwNum'));
+                            alert(`비밀번호가 ${num}번 틀렸습니다.`);
+                            $('#password').css("border", "1px solid red");
+
+                        } else if (err === "3") {
+                            $.cookie('pwToken', token, {path: '/'});
+                            alert("비밀번호 3회 오류 입니다. 10초 후에 다시 시도하세요")
+
+                        } else if (err === "4") {
+                            alert("비밀번호 3회 틀리셨지만 다시 기회를 드릴게요. 로그인 하세요.")
+                        }
+                    }
+                }
+            })
+        }
+
+    </script>
+    <style>
+        .login {
+
+        }
+    </style>
+</head>
+<body>
+<section class="hero">
+    <div class="hero-body">
+        <p class="title">
+            📖 기억보단 기록을
+        </p>
+    </div>
+</section>
+<h1 class="warning"> 화면이 좁습니다. 넓혀주세요.</h1>
+<main class="login">
+    <div class="form">
+        <input type="text" placeholder="Nickname" required id="nickName">
+        <input type="password" placeholder="Password" required id="password">
+        <button onclick="login()" class="login_btn">로그인</button>
+    </div>
+    <div class="bottom_box">
+        <span style="font-size: 0.9em;">계정이 없으신가요?</span>
+        <button onclick="window.location.href='/user/join'">회원가입</button>
+    </div>
+</main>
+
+<script>
+    const id_input = document.querySelector('#nickName');
+    const pw_input = document.querySelector('#password');
+    const focus = (e) => {
+        e.target.style.borderColor = "black";
+    }
+
+    const blur = (e) => {
+        e.target.style.borderColor = "lightgray"
+    }
+    id_input.addEventListener("click", focus);
+    id_input.addEventListener("blur", blur);
+    pw_input.addEventListener("click", focus);
+    pw_input.addEventListener("blur", blur);
+</script>
+
+
+</body>
+</html>
+
+
+

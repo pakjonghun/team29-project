@@ -1,0 +1,217 @@
+:root {
+    --bgColor: #f5f6fa;
+    --boxColor: #B5DCE8;
+    --borderRadius: 0.2rem;
+}
+
+
+.login{
+    width:80%;
+    height:50%;
+    min-height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+body {
+    background-color: #f5f6fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width:100%;
+    max-width: 25rem;
+    max-height:35em;
+}
+
+.form input {
+    font-size: 1.5rem;
+    max-height:15em;
+    width:100%;
+    margin-bottom: 1em;
+}
+
+
+
+input {
+    font-size: 1rem;
+    padding: .8em 1.1rem;
+}
+
+input[type="submit"] {
+    background-color: #3273dc;
+    border: 1px solid transparent;
+    border-radius: .2rem;
+}
+
+input[type="submit"]:hover {
+    opacity: .9;
+}
+
+input[type="submit"]:active {
+    opacity: .8;
+    border: 1px solid lightskyblue;
+}
+
+.form input {
+    border: 1px solid lightgray;
+    border-radius: .2rem;
+}
+
+.form input:focus {
+    outline: none;
+}
+
+button {
+    margin-left: .5em;
+    border-radius: 0.2rem;
+    padding: .5em 1em;
+    border: 1px solid gray;
+    background-color: gray;
+}
+
+
+button:hover {
+    opacity: .9;
+}
+
+button:active {
+    opacity: .8;
+
+}
+
+.login_btn {
+    width: 100%;
+    border: 1px solid gray;
+    margin-bottom: 1em;
+
+}
+
+img {
+    width: 10rem;
+    height: 13rem;
+    opacity: .7;
+}
+
+header {
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 2rem;
+    opacity: .5;
+}
+
+.login_btn {
+    margin-left: 0;
+
+}
+
+.login {
+    background-color: white;
+    padding: 2rem 4rem 2em 4rem;
+    border-radius: 1rem;
+
+
+}
+
+span {
+    font-size: .9rem;
+}
+
+.warning {
+    display: none;
+
+}
+
+@media screen and (max-width: 743px) {
+    .title {
+        display: none;
+    }
+
+    .warning {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 570px ) {
+    .warning {
+        color: red;
+        transition: .2s linear color;
+    }
+
+    button , input,span {
+        font-size: 1.1rem;
+        transition: .3s linear all;
+    }
+}
+
+@media screen and (min-width: 570px){
+        button , input,span {
+        font-size: 1.2rem;
+        transition: .3s linear all;
+    }
+}
+
+
+
+@media screen and (min-width: 1300px) {
+    .login {
+        font-size: 18px;
+    }
+       button , input,span {
+        font-size: 1.3rem;
+        transition: .3ss linear all;
+    }
+}
+
+.help {
+    display: none;
+}
+
+.help-show {
+    display: inline-block;
+    font-size: 0.1rem;
+    margin: 0;
+    margin-bottom: 1rem;
+    color: red;
+}
+
+.navbar-brand {
+    width: 100vw;
+    display: flex;
+    padding: 0;
+
+}
+
+.bottom_box{
+    margin-top: 0;
+    width:90%;
+    max-width: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+}
+
+button{
+    font-size: 1.4rem;
+     width:50%;
+}
+
+
+*{
+    font-weight: 700;
+}

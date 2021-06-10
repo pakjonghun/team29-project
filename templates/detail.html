@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- Webpage Title -->
+    <title>기억보단 기록을 | 상세 페이지</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="기억보다는 기록을" />
+    <meta property="og:description" content="어제 보다 나은 개발자가 되기 위해 오늘 공부한 것을 기록하고,  함께 공유하며, 기록한 내용을 리뷰할 수 있는 사이트." />
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}" />
+
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <script>
+        let user = {{ data|safe }};
+        console.log('user', user);
+
+        async function like(boardId) {
+           const formData = new FormData();
+
+            formData.append("user", user.nickName);
+            formData.append("boardId", boardId);
+            try {
+                const response = await (await fetch('/detail/like', {
+                    method: 'POST',
+                    body: formData,
+                })).json();
+
+                if(response.ok) {
+                    alert("좋아요를 했습니다.");
+                }else {
+                    alert("좋아요를 취소했습니다.")
+                }
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function posting(board) {
+            const comment = document.querySelector("#floatingTextarea");
+
+            const formData = new FormData();
+            if (comment.value === "") return;
+            formData.append("comment", comment.value);
+            formData.append("boardId", board);
+            formData.append("commenter", user.nickName);
+            try {
+                const response = await (await fetch('/detail/comment', {
+                    method: 'POST',
+                    body: formData,
+                })).json();
+                comment.value = "";
+                console.log(response)
+
+                let temple = `<tr><td id="commenter">${response["commenter"]}</td>
+                              <td id="comment">${response["comment"]}</td>
+                              <td id="createdAt">${response["createdAt"]}</td></tr>`
+                $("#tbody-box").prepend(temple);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+
+
+    <style type="text/css">
+
+
+        * {
+            font-family: "Do Hyeon", sans-serif;
+        }
+
+        .review-write-box {
+            margin-bottom: 0px;
+            margin-top: 60px;
+        }
+
+        h1,
+        h5 {
+            display: inline;
+        }
+
+        .info {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            border: 2px solid #60a3bc;
+            border-width: 3px;
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        .review {
+            text-align: right;
+        }
+
+        .reviews {
+            margin-top: 100px;
+        }
+
+        .wrap {
+            width: 100%;
+        }
+
+        .is-sparta {
+            color: #f7f1e3;
+            font-family: 'Nanum Myeongjo', serif;
+            font-weight: lighter;
+        }
+
+        .navbar-brand {
+            border: 2px solid transparent;
+            border-width: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            background-image: url("https://www.wallpapertip.com/wmimgs/1-15895_18-night-sky-stars-desktop-wallpaper-hd.jpg");
+        }
+
+        .btn-outline-secondary {
+            color: #60a3bc;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #B5DCE8;
+            color: white;
+        }
+
+        .info_bottom {
+            width: 90%;
+            margin: 10px auto;
+            display: flex;
+        }
+
+        .writer {
+            border: 1px solid white;
+            flex: 1;
+            width: 30%;
+            box-sizing: border-box;
+        }
+
+        .date {
+            border: 1px solid white;
+            flex: 1;
+            width: 30%;
+            box-sizing: border-box;
+        }
+
+        #bookReview, #title, #reference {
+            overflow: hidden;
+        }
+
+        #bookReview {
+            min-height: 50vh;
+        }
+
+        #title {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .like {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+<div class="container">
+    <div class="info">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/" style="margin-right: 15px;">
+                <img style="width: 50px; height: 40px;" src="{{ url_for('static', filename='logo_book.png') }}">
+                <strong class="is-sparta"
+                        style="font-family: 'Do Hyeon', sans-serif; font-size: larger;">기억보단 기록을</strong>
+            </a>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">제목</span>
+            </div>
+            <div class="form-control" id="title">
+                {{ board.title }}
+            </div>
+            <div class="like">
+                <button type="button" class="btn btn-outline-secondary" id="likeColor" style="color: red;" onclick="like('{{ board.createdAt }}')">좋아요</button>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">내용</span>
+                </div>
+                <div class="form-control" id="bookReview">
+
+
+                    {{ board.content }}
+
+
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">참조</span>
+                </div>
+                <div type="text" class="form-control" id="reference">
+
+                    {{ board.reference }}
+                </div>
+            </div>
+            <div class="info_bottom">
+                <div class="writer">닉네임 : {{ board.writer }}</div>
+                <div class="date">작성일 : {{ board.createdAt }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="comment">
+        <!--      댓글작성 기능-->
+        <form class="review-write-box">
+            <div class="form-group">
+                <label for="exampleInputEmail1"><i class="fa fa-pencil-square-o"
+                                                   aria-hidden="true"></i>댓글쓰기</label>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="댓글을 남겨 주세요!" id="floatingTextarea"></textarea>
+                </div>
+            </div>
+            <button type="button" onclick="posting('{{ board.key }}')" class="btn btn-primary">작성</button>
+        </form>
+        <div class="reviews">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">닉네임</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성일</th>
+                </tr>
+                </thead>
+                <tbody id="tbody-box">
+                {% for comment in comments %}
+                    <tr>
+                        <td id="commenter">{{ comment.commenter }}</td>
+                        <td id="comment">{{ comment.comment }}</td>
+                        <td id="createdAt">{{ comment.createdAt }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+</html>
